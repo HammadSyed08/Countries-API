@@ -16,73 +16,73 @@ export default function CountryDetail() {
   // console.log(state);
   const [dark] = useTheme()
 
-  function updateCountryData(data){
-    setCountryData({
-      flag: data.flags.svg,
-      name: data.name.common,
-      nativeName: Object.values(data.name.nativeName || {})[0]?.common,
-      region: data.region,
-      population: data.population.toLocaleString('en-IN'),
-      topDomain: data.tld.join(', '),
-      subRegion: data.subregion,
-      capital: data.capital?.[0],
-      // currencies: Object.values(data.currencies).map((currency) => currency.name).join(', '),
-      currencies: Object.values(data.currencies || {}),
-      // languages: Object.values(data.languages).join(', '),
-      languages: Object.values(data.languages || {}).join(', '),
-      borders:[]
-    })
+  // function updateCountryData(data){
+  //   setCountryData({
+  //     flag: data.flags.svg,
+  //     name: data.name.common,
+  //     nativeName: Object.values(data.name.nativeName || {})[0]?.common,
+  //     region: data.region,
+  //     population: data.population.toLocaleString('en-IN'),
+  //     topDomain: data.tld.join(', '),
+  //     subRegion: data.subregion,
+  //     capital: data.capital?.[0],
+  //     // currencies: Object.values(data.currencies).map((currency) => currency.name).join(', '),
+  //     currencies: Object.values(data.currencies || {}),
+  //     // languages: Object.values(data.languages).join(', '),
+  //     languages: Object.values(data.languages || {}).join(', '),
+  //     borders:[]
+  //   })
     
-    if (!data.borders){
-      data.borders = []
-    }
+  //   if (!data.borders){
+  //     data.borders = []
+  //   }
 
-    Promise.all(data.borders.map((border) => {
-      return fetch(`https://restcountries.com/v3.1/alpha/${border}`)
-      .then((res) => res.json())
-      .then(([countryBorders]) => countryBorders.name.common)
-    })).then((borders) => {
-      setCountryData((prevState) => ({...prevState, borders}))
-    })
-  }
+  //   Promise.all(data.borders.map((border) => {
+  //     return fetch(`https://restcountries.com/v3.1/alpha/${border}`)
+  //     .then((res) => res.json())
+  //     .then(([countryBorders]) => countryBorders.name.common)
+  //   })).then((borders) => {
+  //     setCountryData((prevState) => ({...prevState, borders}))
+  //   })
+  // }
 
   useEffect(() => {
 
-    if (state) {
-      updateCountryData(state)
-      return
-    }
+    // if (state) {
+    //   updateCountryData(state)
+    //   return
+    // }
 
     fetch(`https://restcountries.com/v3.1/name/${countryName}?fullText=true`)
       .then((res) => res.json())
       .then(([data]) => {
-        // console.log(data);
-        updateCountryData(data)
-        // setCountryData({
-        //   flag: data.flags.svg,
-        //   name: data.name.common,
-        //   nativeName: Object.values(data.name.nativeName)[0].common,
-        //   region: data.region,
-        //   population: data.population.toLocaleString('en-IN'),
-        //   topDomain: data.tld.join(', '),
-        //   subRegion: data.subregion,
-        //   capital: data.capital?.[0],
-        //   currencies: Object.values(data.currencies).map((currency) => currency.name).join(', '),
-        //   languages: Object.values(data.languages).join(', '),
-        //   borders:[]
-        // })
+        // console.log(data)
+        // updateCountryData(data)
+        setCountryData({
+          flag: data.flags.svg,
+          name: data.name.common,
+          nativeName: Object.values(data.name.nativeName)[0].common,
+          region: data.region,
+          population: data.population.toLocaleString('en-IN'),
+          topDomain: data.tld.join(', '),
+          subRegion: data.subregion,
+          capital: data.capital?.[0],
+          currencies: Object.values(data.currencies).map((currency) => currency.name).join(', '),
+          languages: Object.values(data.languages).join(', '),
+          borders:[]
+        })
         
-        // if (!data.borders){
-        //   data.borders = []
-        // }
+        if (!data.borders){
+          data.borders = []
+        }
 
-        // Promise.all(data.borders.map((border) => {
-        //   return fetch(`https://restcountries.com/v3.1/alpha/${border}`)
-        //   .then((res) => res.json())
-        //   .then(([countryBorders]) => countryBorders.name.common)
-        // })).then((borders) => {
-        //   setCountryData((prevState) => ({...prevState, borders}))
-        // })
+        Promise.all(data.borders.map((border) => {
+          return fetch(`https://restcountries.com/v3.1/alpha/${border}`)
+          .then((res) => res.json())
+          .then(([countryBorders]) => countryBorders.name.common)
+        })).then((borders) => {
+          setCountryData((prevState) => ({...prevState, borders}))
+        })
       })
       .catch((err) => {
         setFound(true)
