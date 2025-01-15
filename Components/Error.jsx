@@ -6,7 +6,7 @@ export default function Error() {
          fontSize: "50px", 
          color: 'Red',
         fontWeight: '700'
-        }}>Something is Error 404</div>
+        }}>Something is Wrong Kindly Check your Internet Service</div>
     )
   }
 
